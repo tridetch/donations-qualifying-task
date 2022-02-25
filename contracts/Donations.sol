@@ -19,6 +19,7 @@ contract Donations {
     _;
   }
 
+  /// Making a donation
   function donate() external payable {
     donations[msg.sender] += msg.value;
     if (!is_donator[msg.sender]) {
@@ -27,19 +28,34 @@ contract Donations {
     }
   }
 
+  /**
+    Withdraws specified amound of funds to the address
+    @param withdrawAddress the address to receive funds
+    @param amount the amount of funds to be withdrawed
+   */
   function withdraw(address payable withdrawAddress, uint256 amount) external onlyOwner {
     withdrawAddress.transfer(amount);
     // emit Event
   }
 
+  /**
+    Withdraw the entire balance to specified address
+    @param withdrawAddress the address to receive funds
+   */
   function withdrawAll(address payable withdrawAddress) external onlyOwner {
     withdrawAddress.transfer(address(this).balance);
   }
 
+  /**
+    Return all addresses that make donations
+   */
   function allDonators() external view returns (address[] memory) {
     return donatorAddresses;
   }
 
+  /**
+    Return current balance of contract
+   */
   function balance() external view returns (uint256) {
     return address(this).balance;
   }
