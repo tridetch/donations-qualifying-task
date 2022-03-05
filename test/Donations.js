@@ -53,6 +53,11 @@ describe('Donations contract', function () {
             await tx.wait();
         });
 
+        it('Should revert if contract dont havw enought funds', async function () {
+            let withdrawAmount = ethers.utils.parseEther('0.05');
+            await expect(donationsContract.connect(owner).withdraw(addr2.address, withdrawAmount)).to.be.revertedWith("Contract don't have enought funds.");
+        });
+
         it('Should revert if not owner try to withdraw', async function () {
             await expect(donationsContract.connect(addr1).withdraw(addr1.address, testAmount)).to.be.revertedWith('Only owner can withdraw funds.');
         });

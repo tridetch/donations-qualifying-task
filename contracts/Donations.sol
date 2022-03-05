@@ -34,6 +34,8 @@ contract Donations {
     @param amount the amount of funds to be withdrawed
    */
   function withdraw(address payable withdrawAddress, uint256 amount) external onlyOwner {
+    // require(amount <= address(this).balance, "Contract don't have enought funds.");
+    require(amount <= address(this).balance, "Contract don't have enought funds.");
     withdrawAddress.transfer(amount);
     // emit Event
   }
